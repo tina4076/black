@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Appointments</title>
+  </head>
+  <body>
+    <h1>Hello, {{request.session.name}}!</h1>
+    <h3>Here are your appointments for today, {{request.session.date}}:</h3>
+    <table>
+        <tr>
+            <th>Tasks</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for t in appointments %}
+        <tr>
+            <td>{{t.tasks}}</td>
+            <td>{{t.time}}</td>
+            <td>{{t.status}}</td>
+            <td>
+                {%if t.task.status != "Done" %}
+                  <a href = "/appointments/{{t.id}}"> Edit</a>
+                  <a href = "/appointments/delete/{{t.id}}"> Delete</a>
+                {%endif%}
+
+            </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <h3>Yout Other Appointments:</h3>
+    <table>
+        <tr>
+            <th>Tasks</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        {% for t in appointments %}
+        <tr>
+            <td>{{t.name}}<a></td>
+            <td>{{date}}</td>
+            <td>{{time}}</td>
+        </tr>
+        {%endfor%}
+      </table>
+      <h3>Add Appointments:</h3>
+      {% if messages %}
+          <ul class='messages'>
+          {% for message in messages %}
+              <li {% if message.tags %}class='{{message.tags}}'{% endif %}>{{message}}</li>
+          {% endfor %}
+          </ul>
+      {% endif %}
+      <ul>
+          <form class="" action="{% url 'users:add' %}" method="post">
+            {% csrf_token %}
+          <li>Tasks<input type="text" name="tasks" value=""></li>
+          <li>Date<input type="date" name="date" value=""></li>
+          <li>Time
+            <select name ="time">
+              <option value="1:00">1:00 </option>
+              <option value="1:30">1:30 </option>
+              <option value="2:00">2:00 </option>
+              <option value="2:30">2:30 </option>
+              <option value="3:00">3:00 </option>
+              <option value="3:30">3:30 </option>
+              <option value="4:00">4:00 </option>
+              <option value="4:30">4:30 </option>
+              <option value="5:00">5:00 </option>
+              <option value="5:30">5:30 </option>
+              <option value="6:00">6:00 </option>
+              <option value="6:30">6:30 </option>
+              <option value="7:00">7:00 </option>
+            </select></li>
+            <input type="submit" name="Add" value="Add">
+          </form>
+        <a href="{% url 'users:logout' %}">Logout</a>
+  </body>
+</html>
